@@ -15,7 +15,6 @@ public class Main {
 
             timeSizeFile = new PrintWriter(new FileWriter("./output/time(size).txt"));
             for (int size = 100000; size <= 1000000; size += 100000) {
-                System.out.println(size);
                 long buildStartTime = System.nanoTime();
                 KDTree tree = new KDTree(blockSize, 100, size, "./res/MultidimensionalData4AU-1.txt");
                 long buildEndTime = System.nanoTime();
@@ -30,12 +29,12 @@ public class Main {
                     sumOfSearchTime += searchEndTime - searchStartTime;
                 }
                 long avgSearchTime = sumOfSearchTime / experimentsNumber;
+                System.out.println(Long.toString(size) + ',' + Long.toString(avgSearchTime) + ',' + Long.toString(buildTime));
                 timeSizeFile.println(Long.toString(size) + ',' + Long.toString(avgSearchTime) + ',' + Long.toString(buildTime));
             }
 
             timeDimensionalityFile = new PrintWriter(new FileWriter("./output/time(dimensionality).txt"));
             for (int dimensionality = 10; dimensionality <= 100; dimensionality += 10) {
-                System.out.println(dimensionality);
                 long buildStartTime = System.nanoTime();
                 KDTree tree = new KDTree(blockSize, dimensionality, 1000000, "./res/MultidimensionalData4AU-1.txt");
                 long buildEndTime = System.nanoTime();
@@ -50,6 +49,7 @@ public class Main {
                     sumOfSearchTime += searchEndTime - searchStartTime;
                 }
                 long avgSearchTime = sumOfSearchTime / experimentsNumber;
+                System.out.println(Long.toString(dimensionality) + ',' + Long.toString(avgSearchTime) + ',' + Long.toString(buildTime));
                 timeDimensionalityFile.println(Long.toString(dimensionality) + ',' + Long.toString(avgSearchTime) + ',' + Long.toString(buildTime));
             }
 

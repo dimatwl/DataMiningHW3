@@ -39,11 +39,8 @@ public class KDTree implements Serializable {
         } finally {
             input.close();
         }
-        p5 = data.get(4);
         return data;
     }
-
-    private Point p5;
 
     public KDTree(int maxNodeSize, int maxDimensionality, int maxPointsNumber, String inputFileName) throws IOException, DataFormatException {
         MAX_NODE_SIZE = maxNodeSize;
@@ -55,7 +52,6 @@ public class KDTree implements Serializable {
 
     public List<Point> getNearestK(int k) {
         return root.getNearestK(data.get(new Random().nextInt(data.size())), k);
-        //return root.getNearestK(new Point(p5.impl), k);
     }
 
     public void saveToFile(String fileName) throws IOException {
@@ -102,8 +98,12 @@ public class KDTree implements Serializable {
                         return Float.compare(point1.get(widestDimension), point2.get(widestDimension));
                     }
                 });
-                left = new Node(data.subList(0, data.size() / 2));
-                right = new Node(data.subList(data.size() / 2, data.size()));
+                int medianIndex = data.size() / 2;
+                while (data.get(medianIndex).get(widestDimension) >= data.get(medianIndex + 1).get(widestDimension) && medianIndex < data.size() - 2) {
+                    ++medianIndex;
+                }
+                left = new Node(data.subList(0, medianIndex + 1));
+                right = new Node(data.subList(medianIndex + 1, data.size()));
             } else {
                 left = right = null;
                 widestDimension = null;
@@ -181,6 +181,7 @@ public class KDTree implements Serializable {
                 if (!initialized) {
                     lower = value;
                     upper = value;
+                    initialized = true;
                 } else {
                     lower = Math.min(lower, value);
                     upper = Math.max(upper, value);
