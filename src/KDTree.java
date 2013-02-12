@@ -90,7 +90,7 @@ public class KDTree implements Serializable {
         public Node(List<Point> data) {
             this.data = new ArrayList<Point>(data);
             ranges = computeRanges();
-            if (data.size() > MAX_NODE_SIZE) {
+            if (data.size() > MAX_NODE_SIZE && data.size() > 1) {
                 widestDimension = findWidestDimension();
                 Collections.sort(data, new Comparator<Point>() {
                     @Override
